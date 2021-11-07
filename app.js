@@ -19,6 +19,8 @@ const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 
+const bookingController = require('./controllers/bookingController');
+
 const app = express();
 
 // trust proxies
@@ -64,6 +66,13 @@ const limiter = rateLimit({
     message: 'Too many requests from this IP, please try again in an hour',
 });
 app.use('/api', limiter);
+
+// we need body as raw stream, not json, that's why before body parser
+app.post(
+    '/webhook-checkout',
+    express.raw({ type: 'application/json' }),
+    bookingController.webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(
