@@ -38,6 +38,8 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         ],
     });
 
+    console.log('getCheckoutSession', JSON.stringify({ session }));
+
     // 3. Send it to client
     res.status(200).json({
         status: 'success',
@@ -80,6 +82,7 @@ const createBookingCheckout = catchAsync(async (session) => {
 });
 
 exports.webhookCheckout = (req, res, next) => {
+    console.log(JSON.stringify({ req }));
     const signature = req.headers['stripe-signature'];
 
     let event;
