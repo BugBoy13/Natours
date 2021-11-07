@@ -127,7 +127,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
     // GRANT ACCESS TO PROTECTED ROUTE
     req.user = freshUser;
-    res.locals.user = freshUser;
+    res.locals.user = freshUser; // response.locals available in all templates
     next();
 });
 
