@@ -2,11 +2,11 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-const stripe = Stripe(
-    'pk_test_51JspTqSENP6ehdlzy1Vx7iYR3POsG159T1jLDr2KtikchfBHaOHwquWVxGU2peh1yOqPOOqGnRiM1Wl3Orn4bpjq00uwrqrY03'
-);
-
 export const bookTour = async (tourId) => {
+    const stripe = Stripe(
+        'pk_test_51JspTqSENP6ehdlzy1Vx7iYR3POsG159T1jLDr2KtikchfBHaOHwquWVxGU2peh1yOqPOOqGnRiM1Wl3Orn4bpjq00uwrqrY03'
+    );
+
     try {
         // console.log(tourId);
         // 1. Get the checkout session from server
