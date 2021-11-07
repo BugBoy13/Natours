@@ -3,7 +3,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const User = require('../Models/userModel');
 const Tour = require('../Models/tourModel');
 const Booking = require('../Models/bookingModel');
-const AppError = require('../utils/appError');
+// const AppError = require('../utils/appError');
 const catchAsync = require('../utils/catchAsync');
 const factory = require('./handlerFactory');
 
@@ -38,8 +38,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         ],
     });
 
-    console.log('getCheckoutSession', JSON.stringify({ session }));
-
     // 3. Send it to client
     res.status(200).json({
         status: 'success',
@@ -65,7 +63,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckout = catchAsync(async (session) => {
-    console.log(`Session: ${JSON.stringify(session)}`);
     const tourId = session.client_reference_id; // tourId set previously
 
     const tour = await Tour.findById(tourId);
@@ -84,7 +81,6 @@ const createBookingCheckout = catchAsync(async (session) => {
 });
 
 exports.webhookCheckout = (req, res, next) => {
-    console.log(req);
     const signature = req.headers['stripe-signature'];
 
     let event;
