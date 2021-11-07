@@ -63,7 +63,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckout = catchAsync(async (session) => {
-    console.log(`Session: ${session}`);
+    console.log(`Session: ${JSON.stringify(session)}`);
     const tour = session.client_reference_id; // tourId set previously
     const user = (
         await User.findOne({
