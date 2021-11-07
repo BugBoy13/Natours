@@ -27,7 +27,9 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
                 name: `${tour.name} Tour`,
                 description: tour.summary,
                 images: [
-                    `https://www.natours.dev/img/tours/${tour.imageCover}`,
+                    `${req.protocol}://${req.get('host')}/img/tours/${
+                        tour.imageCover
+                    }`,
                 ],
                 amount: tour.price * 100,
                 currency: 'usd',
@@ -67,7 +69,7 @@ const createBookingCheckout = catchAsync(async (session) => {
             email: session.customer_email,
         })
     ).id;
-    const price = session.line_items[0].amount / 100;
+    const price = session.display_items[0].amount / 100;
 
     await Booking.create({
         tour,
@@ -77,7 +79,7 @@ const createBookingCheckout = catchAsync(async (session) => {
 });
 
 exports.webhookCheckout = (req, res, next) => {
-    const signature = req.headers('stripe-signature');
+    const signature = req.header('stripe-signature');
 
     let event;
     try {
