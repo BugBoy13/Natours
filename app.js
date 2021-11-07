@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -27,6 +28,19 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // GLOBAL MIDDLEWARES
+// Implement cors, Access-Control-Allow-Origin *
+app.use(cors()); // only work for simple request - get, post
+
+// non simple req - patch, put, delete (first options is called)
+// we need to send back options res, preflight phase
+app.options('*', cors());
+
+// app.use(
+//     cors({
+//         origin: '',
+//     })
+// );
+
 // set security http headers
 app.use(helmet());
 
